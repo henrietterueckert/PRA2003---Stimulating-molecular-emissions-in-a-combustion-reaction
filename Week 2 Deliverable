@@ -1,0 +1,35 @@
+
+## This is the GitHub version, I uploaded the python file separately as well. This tests the output-Set0.txt file 
+# IMPORTANT: Make sure "output-Set0.txt" is placed in the same directory as this script before running it
+# It will not work if the file is located elsewhere!!!
+
+# Calculates the magnitude of the momentum with p = sqrt(px^2 + py^2 + pz^2)
+def calculate_momentum(px, py, pz):
+    p_momentum = (px**2 + py**2 + pz**2) ** 0.5 # ** = to the power of
+    return p_momentum
+
+## since psquared cannot be smaller than 0, I didn't add a condition
+
+# Opening the input file. "with" automatically closes the file after even if there are errors
+with open("output-Set0.txt", "r") as infile:
+    # Using readline() instead of "for line in infile" to read header separately!
+    first_line = infile.readline().split() # first line of the file = event header (id and number of particles)
+    event_id = first_line[0]
+    n_particles = int(first_line[1])
+
+    print("Event", event_id, "-", n_particles, "particles")
+
+# Looping. After the header, read the following block of lines one by one for one particle at a time
+    for i in range(n_particles):
+        line = infile.readline().split()
+        px = float(line[0]) # Convert the momentum components from text to floats for calculations
+        py = float(line[1])
+        pz = float(line[2])
+        code = line[3] # no float here as we are just displaying the code
+
+        p = calculate_momentum(px, py, pz) # Calling the function
+
+# Printing components and momentum
+        print("Particle", i + 1, "| code =", code,
+              "| px =", px, "py =", py, "pz =", pz, ## also displaying momentum components not just p
+              "| p =", p) 
