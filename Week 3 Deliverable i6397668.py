@@ -103,4 +103,4 @@ else:
 
 # Printing result
 print("Events read:", n_events)
-print("Average per event:", round(mean, 4), "+/-", round(error, 4)) # round() to 4 decimal places keeps the output readable
+print("Average per event:", mean, "+/-", error) 
