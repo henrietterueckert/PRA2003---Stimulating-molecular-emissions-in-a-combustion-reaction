@@ -45,7 +45,7 @@ while True:
 
     # A header should have 2 things onnly!! (event number and particle count)
     if len(header) != 2: # if more than 2 it will stop reading
-        print("Error: malformed header line:", header_line)
+        print("Error, header line broken:", header_line)
         break
 
     # Particle counts
