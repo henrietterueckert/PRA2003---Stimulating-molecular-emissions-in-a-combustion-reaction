@@ -65,7 +65,7 @@ while True:
         columns = line.split() # spltting components between spaces
       
         if len(columns) != 4: 
-            print("Error: malformed data line:", line)
+            print("Error: broken data line:", line)
             continue # doesn't break, it will skip this line!!
 
         try:
