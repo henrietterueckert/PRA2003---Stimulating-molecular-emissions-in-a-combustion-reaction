@@ -11,7 +11,7 @@ Henriette Rückert - i6397668
 
 - **Input files**: output-Set1.txt through output-Set10.txt must be in the same directory as the script. Each line is either a header (eventNumber nParticles) or a particle row (px py pz moleculeID)
 
-- **Run**: python week4_simple.py from that directory
+- **Run**: full analysis.py
 
 - **Runtime**: a few minutes total across all 10 files, depending on machine
 
