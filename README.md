@@ -29,5 +29,9 @@
 | 3122 vs -3122 | Methane (vs Methyl ion) | 0.0049 | ± 0.001 | 0.843 | 8.41 | 10.64 | 3.36 | 0.894 | Yes |
 | 3312 vs -3312 | Ethylene (vs Ionised ethylene) | 0.0004 | ± 0.000 | 0.019 | 0.90 | 2.83 | 0.90 | 0.562 | No |
 | 3334 vs -3334 | Ozone (vs Superoxide anion) | 0.0000 | ± 0.000 | -0.090 | 0.51 | 1.68 | 0.53 | 1.496 | No |
+
+3 of 6 pairs show a significant asymmetry (> 3 sigma): Carbon monoxide, Water, and Methane.
+
+Carbon monoxide has the strongest correlation of any pair (r = 0.991). Because of that,  z-scores that treat the two sides as independent (z_sem = 2.23, z_std = 0.71) stay below the significance threshold but n_sigma (7.15), which looks at how the difference itself varies across sub-samples instead of combining each side's uncertainty separately, shows asymmetry.
   
 5. Is there any asymmetry as a function of their momentum?
