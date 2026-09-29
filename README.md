@@ -15,19 +15,18 @@ Henriette Rückert - i6397668
 - **Input files**: output-Set1.txt through output-Set10.txt must be in the same directory as the script. Each line is either a header (eventNumber nParticles) or a particle row (px py pz moleculeID)
 
 - **Run from repository**:
-
-Week 2: week2deliverable.py
-
-Week 3: week3deliverable.py
-
-Week 4: week4deliverable.py
+`week2deliverable.py`
+`week3deliverable.py`
+`week4deliverable.py`
 
 - **Runtime**: several minutes.
 
 ## Data ##
 
 **Week 2:** The input is output-Set0.txt
+
 **Week 3:** The input is any of the output files
+
 **Week 4:** The input is 10 text files
 
 output-Set1.txt --> output-Set10.txt, each containing 500,000 events (5,000,000 events total)
@@ -36,7 +35,7 @@ Each event in a file has:
 
 - A Header line: eventID  and number of molecules rows
   
--  The molecule rows contain: px py pz  ad the moleculeID. These are the 3D momentum components with integer ID identifying the molecule
+- The molecule rows contain: px py pz  ad the moleculeID. These are the 3D momentum components with integer ID identifying the molecule
 
 An empty event is a real event where nothing happened, script excludes it from the event count N
 
