@@ -3,6 +3,13 @@
 **Student**
 
 Henriette Rückert - i6397668 
+## Dependencies
+
+• **Python**: 3.8 or later
+• **Dependencies**: none beyond the standard library (math, csv, statistics) - no pip install needed
+• **Input files**: output-Set1.txt through output-Set10.txt must be in the same directory as the script. Each line is either a header (eventNumber nParticles) or a particle row (px py pz moleculeID)
+• **Run**: python week4_simple.py from that directory
+• **Runtime**: a few minutes total across all 10 files, depending on machine
 
 ## Questions ##
 **What are the average counts of each molecular species and their statistical uncertainties?**
