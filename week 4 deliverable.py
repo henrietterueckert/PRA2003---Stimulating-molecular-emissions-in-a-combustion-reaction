@@ -46,10 +46,9 @@ core_pairs = [211, 321, 2212, 3122, 3312, 3334]      # the 6 normal codes
 
 # 1. read one file, tally every known code per (non-empty) event
 
-#reads one data file and returns a list of result rows, one per known code.
-#keep running total per code:
-   # 1. total_count: the sum of counts, used to get the mean
-   # 2 Poisson: sqrt(N) / n_events)
+#keep a running total per code:
+   # total_count: the sum of counts, used to get the mean
+   # Poisson: sqrt(N) / n_events
 
 def analyse_file(filename):
     try:
@@ -87,14 +86,14 @@ def analyse_file(filename):
                 malformed_lines += 1
                 continue
             if particle_id in name_lookup:   # ignore unknown codes
-                total_count[particle_id] += 1   # NEW: straight into the running total
+                total_count[particle_id] += 1   
 
-        else:   # NEW: blank or corrupted line, skipped but counted
+        else:   # skipped
             malformed_lines += 1
 
     f.close() # closing file
 
-    if malformed_lines > 0:   # NEW
+    if malformed_lines > 0:   
         print(f"Note: {malformed_lines} line(s) skipped in {filename}")
 
     if n_events == 0:   #if a file has only empty events 
@@ -106,14 +105,14 @@ def analyse_file(filename):
     for code in known_codes:
         mean = total_count[code] / n_events
 
-        # Poisson: for a total count N, sigma = sqrt(N), so the uncertainty on the average is sqrt(N) / n_events   # NEW
+        # Poisson: for a total count N, sigma = sqrt(N), so the uncertainty on the average is sqrt(N) / n_events   
         error = math.sqrt(total_count[code]) / n_events
 
         file_results.append({
             "code": code, "name": name_lookup[code],
             "n_events": n_events, "total_count": total_count[code],
-            "average_per_event": float(f"{mean:.5g}"),   # NEW: 5 significant figures so rare codes don't round to 0
-            "uncertainty": float(f"{error:.5g}"),        # NEW
+            "average_per_event": float(f"{mean:.5g}"),   #  5 significant figures 
+            "uncertainty": float(f"{error:.5g}"),        
             "subsample": filename
         })
     return file_results
@@ -138,7 +137,8 @@ with open(subsample_csv, "w", newline="") as out_f:
     writer.writeheader()
     writer.writerows(all_results)
 
-print(f"Part 1 done: {len(file_names)} files read -> {subsample_csv}") # to see whilst you are running the code!
+files_read = len(set(row["subsample"] for row in all_results))   # counts only the files that were actually read
+print(f"Part 1 done: {files_read} of {len(file_names)} files read -> {subsample_csv}") # to see whilst you are running the code!
 
 
 
