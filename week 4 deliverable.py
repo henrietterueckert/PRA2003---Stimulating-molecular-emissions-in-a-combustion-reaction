@@ -23,7 +23,7 @@ subsample_csv = "subsample_results.csv"   # per-file results (one row per code, 
 results_csv = "results.csv"               # combined result: one row per code, averaged over all files
 significance_csv = "significance.csv"     # pairwise asymmetry test results
 
-threshold = 3   # (for later) a pair only counts as "significant" if its difference is more than
+threshold = 3   # (for later) a pair only counts as significant if its difference is more than
                 # this many standard deviations (n_sigma) away from zero
 
 progress_every = 500000   # print a progress line every this many events (per file),
@@ -47,9 +47,9 @@ core_pairs = [211, 321, 2212, 3122, 3312, 3334]      # the 6 normal codes
 # 1. read one file, tally every known code per (non-empty) event
 
 #reads one data file and returns a list of result rows, one per known code.
-#keep two running totals per code:
+#keep running total per code:
    # 1. total_count: the sum of counts, used to get the mean
-   # 2 total_sq: the sum of counts squared, used to get the variance
+   # 2 Poisson: sqrt(N) / n_events)
 
 def analyse_file(filename):
     try:
@@ -60,56 +60,42 @@ def analyse_file(filename):
 
     # initialising
     total_count = {code: 0 for code in known_codes}
-    total_sq = {code: 0 for code in known_codes}
     n_events = 0   # only counts non-empty events 
+    malformed_lines = 0   
 
-    while True:
-        header_line = f.readline()
-        if header_line == "":   # empty string is the end of file so it will stop reading
-            break
+    for line in f:   
+        columns = line.split()
 
-        header = header_line.split()
-        if len(header) != 2:   # a header should only have event id andparticle count
-            print("Error, header line broken:", header_line) # if not it will stop
-            break
+        if len(columns) == 2:   # a header should only have event id and particle count
+            try:
+                n_particles = int(columns[1]) # protection against non-integers
+            except ValueError:
+                print("Error, count is not an integer", line)
+                malformed_lines += 1   # skip malformed header
+                continue
 
-        try:
-            n_particles = int(header[1]) # protection against non-integers
-        except ValueError:
-            print("Error, count is not an integer", header_line)
-            break
+            if n_particles > 0:   # empty event is not counted 
+                n_events = n_events + 1 # tallying
 
-        if n_particles == 0:   # empty event so nothing to read
-            continue
+                if n_events % progress_every == 0:   # checks that it is working 
+                    print(f"  ... {filename}: {n_events:,} events read")
 
-        event_counts = {}   # tallying for one event to see how many times a code appeared
-
-        for i in range(n_particles):   # read exactly this many particle lines for the event
-            line = f.readline()
-            columns = line.split()
-            if len(columns) != 4:   # particle line usually has px, py, pz,  and code
-                continue            # skips line not crashing
+        elif len(columns) == 4:   # particle line usually has px, py, pz,  and code
             try:
                 particle_id = int(columns[3])   # the code is the 4th column, python starts at 0 so 3 = 4
             except ValueError:
+                malformed_lines += 1
                 continue
-            if particle_id not in name_lookup:   # ignore unknown codes
-                continue
-            event_counts[particle_id] = event_counts.get(particle_id, 0) + 1
+            if particle_id in name_lookup:   # ignore unknown codes
+                total_count[particle_id] += 1   # NEW: straight into the running total
 
-        n_events = n_events + 1 # tallying
-
-        # this event's counts --> running totals 
-    
-        for code in known_codes:
-            x = event_counts.get(code, 0) # (using .get(code, 0) so a code that didn't appear this event just adds 0)
-            total_count[code] += x
-            total_sq[code] += x * x
-
-        if n_events % progress_every == 0:   # checks that it is working 
-            print(f"  ... {filename}: {n_events:,} events read")
+        else:   # NEW: blank or corrupted line, skipped but counted
+            malformed_lines += 1
 
     f.close() # closing file
+
+    if malformed_lines > 0:   # NEW
+        print(f"Note: {malformed_lines} line(s) skipped in {filename}")
 
     if n_events == 0:   #if a file has only empty events 
         print("Error:", filename, "has no non-empty events so it is skipped")
@@ -120,19 +106,14 @@ def analyse_file(filename):
     for code in known_codes:
         mean = total_count[code] / n_events
 
-# sample variance from running sums 
-# variance = (sum of x^2)/N - mean^2, then divide by N-1 (not N) since this is a sample, not the whole population
-        if n_events > 1:
-           
-            variance = (total_sq[code] - n_events * mean ** 2) / (n_events - 1)
-            error = math.sqrt(variance / n_events) if variance > 0 else 0.0
-        else:
-            error = 0.0   # can't measure variance from a single event
+        # Poisson: for a total count N, sigma = sqrt(N), so the uncertainty on the average is sqrt(N) / n_events   # NEW
+        error = math.sqrt(total_count[code]) / n_events
 
         file_results.append({
             "code": code, "name": name_lookup[code],
             "n_events": n_events, "total_count": total_count[code],
-            "average_per_event": round(mean, 5), "uncertainty": round(error, 5),
+            "average_per_event": float(f"{mean:.5g}"),   # NEW: 5 significant figures so rare codes don't round to 0
+            "uncertainty": float(f"{error:.5g}"),        # NEW
             "subsample": filename
         })
     return file_results
