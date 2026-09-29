@@ -16,9 +16,11 @@ Henriette Rückert - i6397668
 
 - **Run from repository**:
 
-- Week 2: week2deliverable.py
-- Week 3: week3deliverable.py
-- Week 4: week4deliverable.py
+Week 2: week2deliverable.py
+
+Week 3: week3deliverable.py
+
+Week 4: week4deliverable.py
 
 - **Runtime**: several minutes.
 
