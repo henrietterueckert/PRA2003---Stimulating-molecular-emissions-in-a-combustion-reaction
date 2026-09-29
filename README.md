@@ -7,7 +7,7 @@ Henriette Rückert - i6397668
 
 - **Python**: 3.8 or later
 
-- **Dependencies**: none beyond the standard library (math, csv, statistics) - no pip install needed
+- **Dependencies**: import math, csv, statistics but no pip install needed
 
 - **Input files**: output-Set1.txt through output-Set10.txt must be in the same directory as the script. Each line is either a header (eventNumber nParticles) or a particle row (px py pz moleculeID)
 
