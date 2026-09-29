@@ -1,6 +1,8 @@
 # PRA2003 - Stimulating molecular emissions in a combustion reaction
 
-## Henriette Rückert - i6397668 ##
+**Student**
+
+Henriette Rückert - i6397668 
 
 ## Questions ##
 **What are the average counts of each molecular species and their statistical uncertainties?**
@@ -36,4 +38,5 @@
 Carbon monoxide has the strongest correlation of any pair (r = 0.991). Because of that,  z-scores that treat the two sides as independent (z_sem = 2.23, z_std = 0.71) stay below the significance threshold but n_sigma (7.15), which looks at how the difference itself varies across sub-samples instead of combining each side's uncertainty separately, shows asymmetry.
   
 **Is there any asymmetry as a function of their momentum?**
+
 To be answered next week
