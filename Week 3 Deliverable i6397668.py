@@ -1,11 +1,12 @@
 # IMPORTANT: Make sure you have any of the output files in your directory
-# This code calculates the average number of a chosen particle type per event (500,000 runs) with the uncertainty
+# This code calculates the average number of a chosen particle type per NON-EMPTY event with the uncertainty
+# Empty events (header says 0 particles) are skipped and not included in N
 
 # Equations i used:
-# N = number of events
+# N = number of non-empty events
 # mean = (sum of counts) / N
 # variance = sum((x - mean)^2) / (N - 1)
-# uncertainty    = sqrt(variance / N)   
+# uncertainty    = sqrt(variance / N)
 
 # important for this code: Python always counts from 0, so e.g. if ID is in column 4, then i have to put in column 3
 
@@ -32,8 +33,9 @@ except FileNotFoundError:
     print("Error: could not find the file", filename)
     exit()
 
-#  keep one count per event in a list
-counts = []   # counts[i] = n. of matching particles found in event i
+# keep one count per non-empty event in a list
+counts = []   # counts[i] = n. of matching particles found in non-empty event i
+n_empty = 0   # how many empty events were skipped
 
 # loop reads 1 event with header line and the particle lines that belong to it
 while True:
@@ -43,7 +45,7 @@ while True:
 
     header = header_line.split()   # split the line between spaces
 
-    # A header should have 2 things onnly!! (event number and particle count)
+    # A header should have 2 things only!! (event number and particle count)
     if len(header) != 2: # if more than 2 it will stop reading
         print("Error, header line broken:", header_line)
         break
@@ -55,16 +57,21 @@ while True:
         print("Error, count is not an integer", header_line)
         break
 
-# Initialising
+    # Skip empty events: no particle lines to read, and not added to counts
+    if n_particles == 0:
+        n_empty = n_empty + 1
+        continue
+
+    # Initialising
     count = 0   # n. particle of interest in an event
 
     for i in range(n_particles): # reads n_particle lines, next readline will be next event
         line = f.readline()
 
-# Making sure each particle line has 4 components
-        columns = line.split() # spltting components between spaces
-      
-        if len(columns) != 4: 
+        # Making sure each particle line has 4 components
+        columns = line.split() # splitting components between spaces
+
+        if len(columns) != 4:
             print("Error: broken data line:", line)
             continue # doesn't break, it will skip this line!!
 
@@ -74,21 +81,21 @@ while True:
             print("Error: ID is not an integer:", line)
             continue # again if this fails it will only skip a line instead of breaking
 
-        # counting particle of intest
-        if particle_id == id_of_interest: # if clause to only tally the particl ID that matches the one we chose
+        # counting particle of interest
+        if particle_id == id_of_interest: # only tally the particle ID that matches the one we chose
             count = count + 1 # tallies up
 
-# Loop is finished for one event. add this event's count to the list
+    # Loop is finished for one event. add this event's count to the list
     counts.append(count)
 
 f.close()   # closing file
 
-# Number of events read
+# Number of non-empty events read
 n_events = len(counts)
 
 # Average number of matching particles per event
 if n_events == 0: # cannot calculate mean from 0
-    print("division by 0 error.")
+    print("division by 0 error (no non-empty events found).")
     exit()
 
 mean = sum(counts) / n_events
@@ -102,5 +109,6 @@ else:
     error = 0.0 # there is no variance otherwise
 
 # Printing result
-print("Events read:", n_events)
-print("Average per event:", mean, "+/-", error) 
+print("Empty events skipped:", n_empty)
+print("Non-empty events read:", n_events)
+print("Average per event:", mean, "+/-", error)
