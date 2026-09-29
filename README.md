@@ -1,8 +1,9 @@
 # PRA2003 - Stimulating molecular emissions in a combustion reaction
 
 ## Henriette Rückert - i6397668 ##
-*Answer the following questions*
-1. What are the average counts of each molecular species and their statistical uncertainties?
+
+## Questions ##
+**What are the average counts of each molecular species and their statistical uncertainties?**
 
 | ID | Molecule | Average per event | Statistical uncertainty |
 | --- | --- | --- | --- |
@@ -19,7 +20,7 @@
 | 3334 | Ozone (O3) | 0.001187 | ± 0.000042 |
 | -3334 | Superoxide anion (O2-) | 0.001152 | ± 0.000051 |
 
-2. Is there any asymmetry between the normal and the variant molecule?
+**Is there any asymmetry between the normal and the variant molecule?**
 
 | ID pair | Molecule (vs counterpart) | Difference | Uncertainty | Correlation r | n_sigma | z_sem | z_std | Asymmetry [%] | Significant? |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -34,4 +35,5 @@
 
 Carbon monoxide has the strongest correlation of any pair (r = 0.991). Because of that,  z-scores that treat the two sides as independent (z_sem = 2.23, z_std = 0.71) stay below the significance threshold but n_sigma (7.15), which looks at how the difference itself varies across sub-samples instead of combining each side's uncertainty separately, shows asymmetry.
   
-5. Is there any asymmetry as a function of their momentum?
+**Is there any asymmetry as a function of their momentum?**
+To be answered next week
