@@ -1,11 +1,11 @@
-# PRA2003 - Stimulating molecular emissions in a combustion reaction
-Simulating molecular emissions in a combustion reaction 
-Analysing 5 million simulated combustion events for 12 molecular species with their counterparts
+# PRA2003 - Simulating molecular emissions in a combustion reaction
+Simulating molecular emissions in a combustion reaction. Analysing 5 million simulated combustion events for 12 molecular species with their counterparts.
 Calculating average abundance and checking for asymmetries between paired species
 
 **Student**
 
 Henriette Rückert - i6397668 
+
 ## Dependencies
 
 - **Python**: 3.8 or later
@@ -14,20 +14,42 @@ Henriette Rückert - i6397668
 
 - **Input files**: output-Set1.txt through output-Set10.txt must be in the same directory as the script. Each line is either a header (eventNumber nParticles) or a particle row (px py pz moleculeID)
 
-- **Run from repository**: week4deliverable.py
+- **Run from repository**:
 
-- **Runtime**: a few minutes total across all 10 files
+- Week 2: week2deliverable.py
+- Week 3: week3deliverable.py
+- Week 4: week4deliverable.py
+
+- **Runtime**: several minutes.
 
 ## Data ##
-The input is 10 text files
+
+**Week 2:** The input is output-Set0.txt
+**Week 3:** The input is any of the output files
+**Week 4:** The input is 10 text files
+
 output-Set1.txt --> output-Set10.txt, each containing 500,000 events (5,000,000 events total)
+
 Each event in a file has:
+
 - A Header line: eventID  and number of molecules rows
--  The molecule rows contain: px py pz moleculeID. These are the 3D momentum components with integer ID identifying the molecule
+  
+-  The molecule rows contain: px py pz  ad the moleculeID. These are the 3D momentum components with integer ID identifying the molecule
 
 An empty event is a real event where nothing happened, script excludes it from the event count N
 
 ## Output files ##
+
+**Week 2**
+
+The output is printed directly onto console
+
+**Week 3** 
+
+The output is printed directly onto console
+
+**Week 4**
+The output is printed directly onto console and into csv files:
 
 `subsample_results.csv` = Per-code results for each of the 10 files separately 
 
@@ -36,24 +58,34 @@ An empty event is a real event where nothing happened, script excludes it from t
 `significance.csv` = Pairwise difference, correlation, and significance test for each molecule/counterpart pair 
 
 ## Method ##
+
+**Week 2**
+
+Reads one event from a single file, computes each particle's momentum magnitude, and prints everything to the console
+
+**Week 3**
+
+It only handles one file and one chosen ID per run. Excludes empty events from N, and computes the uncertainty as the standard error of the mean
+
+**Week 4**
+
 1. Read one file, tally every known code per (non-empty) event. Keeps a running total per code:
    
 - total_count: the sum of counts, used to get the mean
-  
 - Poisson: sqrt(N) / n_events
    
 2. Combine the 10 files into one final average per code and takes the uncertainty as the standard deviation of the 10 per-file averages (sub-sampling method)
    
-3. Pairwise test: for each code pair, the scriptcomputes the difference and asymmetry per file first, then the standard deviation of those per-file differences is the uncertainty on the difference. correlation_r is reported alongside as a diagnostic.
+3. Pairwise test: for each code pair, the script computes the difference and asymmetry per file first, then the standard deviation of those per-file differences is the uncertainty on the difference. correlation_r is reported alongside as a diagnostic.
 
 ## How does the sub-sampling method work? ##
 
 The 5 million event sample is split into 10 sub-samples of 500,000 events each and a central value is taken from the average over the full pooled sample. The statistical uncertainty is the standard deviation of the 10 sub-sample averages. This is used instead of propagating each molecule's uncertainty independently, since we don't know correlation between molecules measured in the same events.
 
-**There are alternate methods, but they give highly variance uncertainties**
+**There are alternate methods, but they give different uncertainties**
 
 e.g. combining each molecule's own uncertainty independently --> sqrt(uncertainty_A^2 + uncertainty_B^2)). This is only valid if the two quantities being compared are uncorrelated -
-For every pair, a Pearson correlation between the pair's 10 per-sub-sample averages is computed alongside the significance test. Carbon monoxide has r = 0.991 - almost perfectly correlated, because its count and its counterpart's count move with eachother. Combining their uncertainties independently ignores this, giving a different uncertainty
+For every pair, a Pearson correlation between the pair's 10 per-sub-sample averages is computed alongside the significance test. Carbon monoxide has r = 0.991 - almost perfectly correlated, because its count and its counterpart's count move with each other. Combining their uncertainties independently ignores this, giving a different uncertainty
 
 Only the sub-sampling method which takes the difference within each sub-sample first, then measuring how much that difference varies across sub-samples can correctly cancels out the correlation.
 
