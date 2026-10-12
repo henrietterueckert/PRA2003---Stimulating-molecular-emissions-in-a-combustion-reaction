@@ -83,15 +83,8 @@ It only handles one file and one chosen ID per run. Excludes empty events from N
 
 The 5 million event sample is split into 10 sub-samples of 500,000 events each and a central value is taken from the average over the full pooled sample. The statistical uncertainty is the standard deviation of the 10 sub-sample averages. This is used instead of propagating each molecule's uncertainty independently, since we don't know correlation between molecules measured in the same events.
 
-**There are alternate methods, but they give different uncertainties**
-
-e.g. combining each molecule's own uncertainty independently --> sqrt(uncertainty_A^2 + uncertainty_B^2)). This is only valid if the two quantities being compared are uncorrelated -
-For every pair, a Pearson correlation between the pair's 10 per-sub-sample averages is computed alongside the significance test. Carbon monoxide has r = 0.991 - almost perfectly correlated, because its count and its counterpart's count move with each other. Combining their uncertainties independently ignores this, giving a different uncertainty
-
-Only the sub-sampling method which takes the difference within each sub-sample first, then measuring how much that difference varies across sub-samples can correctly cancels out the correlation.
-
-## Questions ##
-**What are the average counts of each molecular species and their statistical uncertainties?**
+# Questions
+# What are the average counts of each molecular species and their statistical uncertainties?
 
 | ID | Molecule | Average per event | Statistical uncertainty |
 | --- | --- | --- | --- |
@@ -108,23 +101,35 @@ Only the sub-sampling method which takes the difference within each sub-sample f
 | 3334 | Ozone (O3) | 0.001187 | ± 0.000042 |
 | -3334 | Superoxide anion (O2-) | 0.001152 | ± 0.000051 |
 
-**Is there any asymmetry between the normal and the variant molecule?**
+# Is there any asymmetry between the normal and the variant molecule?
 
 For each molecule/counterpart pair, the difference and asymmetry are calculated per sub-sample first, then the standard deviation across sub-samples gives the uncertainty on the difference (n_sigma). This accounts for correlation between the pair. Pairs with n_sigma > 3 are significant. z_sem and z_std are shown for comparison  as they  would combine each side's uncertainty independently.
 
-| ID pair | Molecule (vs counterpart) | Difference | Uncertainty | Correlation r | n_sigma | z_sem | z_std | Asymmetry [%] | Significant? |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 211 vs -211 | Carbon monoxide (vs Carbon-13 monoxide) | 0.0323 | ± 0.005 | 0.991 | 7.15 | 2.23 | 0.71 | 0.081 | Yes |
-| 321 vs -321 | Nitric oxide (vs Ionised NO) | 0.0057 | ± 0.003 | 0.804 | 1.73 | 2.47 | 0.78 | 0.114 | No |
-| 2212 vs -2212 | Water (vs Heavy water) | 0.0239 | ± 0.002 | 0.414 | 10.06 | 24.60 | 7.78 | 0.998 | Yes |
-| 3122 vs -3122 | Methane (vs Methyl ion) | 0.0049 | ± 0.001 | 0.843 | 8.41 | 10.64 | 3.36 | 0.894 | Yes |
-| 3312 vs -3312 | Ethylene (vs Ionised ethylene) | 0.0004 | ± 0.000 | 0.019 | 0.90 | 2.83 | 0.90 | 0.562 | No |
-| 3334 vs -3334 | Ozone (vs Superoxide anion) | 0.0000 | ± 0.000 | -0.090 | 0.51 | 1.68 | 0.53 | 1.496 | No |
+| ID pair | Molecule (vs counterpart) | Difference | Uncertainty | n_sigma | Asymmetry [%] | Significant? |
+| --- | --- | --- | --- | --- | --- | --- | 
+| 211 vs -211 | Carbon monoxide (vs Carbon-13 monoxide) | 0.0323 | ± 0.005 |  7.15 | 0.081 | Yes |
+| 321 vs -321 | Nitric oxide (vs Ionised NO) | 0.0057 | ± 0.003 | 1.73 | 0.114 | No |
+| 2212 vs -2212 | Water (vs Heavy water) | 0.0239 | ± 0.002 | 10.06 | 0.998 | Yes |
+| 3122 vs -3122 | Methane (vs Methyl ion) | 0.0049 | ± 0.001| 8.41 |  0.894 | Yes |
+| 3312 vs -3312 | Ethylene (vs Ionised ethylene) | 0.0004 | ± 0.000 | 0.90 | 0.562 | No |
+| 3334 vs -3334 | Ozone (vs Superoxide anion) | 0.0000 | ± 0.000 | 0.51 |  1.496 | No |
 
 3 of 6 pairs show a significant asymmetry (> 3 sigma): Carbon monoxide, Water, and Methane.
-
-Carbon monoxide has the strongest correlation of any pair (r = 0.991). Because of that,  z-scores that treat the two sides as independent (z_sem = 2.23, z_std = 0.71) stay below the significance threshold but n_sigma (7.15), which looks at how the difference itself varies across sub-samples instead of combining each side's uncertainty separately, shows asymmetry.
   
-**Is there any asymmetry as a function of their momentum?**
+# Is there any asymmetry as a function of their momentum?
+## Plots
 
-To be answered next week
+**`asymmetry_vs_P.png`** has one panel per pair, showing:
+- Blue points: the asymmetry in each bin. The vertical bar is the std of the sub-samples. The horizontal bar is the bin width
+- Orange band: the overall asymmetry ± its std
+- Green slope: the straight-line fit, with the slope given in the legend
+- Dashed grey line: A = 0
+
+**`spectrum_dNdP.png`** has one panel per pair, with the normal molecule in blue and the variant in red, on a log scale. The open last bin (P > 8) is not included, because it has no real width.
+
+
+## Notes and limitations
+
+- Rare pairs: some pairs, such as ozone / superoxide, have very few molecules. Their asymmetries have large uncertainties.
+- Bins not plotted: a bin is left off the asymmetry plot if fewer than 2 sub-samples have molecules in it, or if its std is 0.
+- What a zero slope means: a slope consistent with zero does not prove the asymmetry is independent of P (it could rise and then fall). The per-bin comparison with the overall asymmetry looks at that
