@@ -162,9 +162,10 @@ For each molecule/counterpart pair, the asymmetry are calculated per sub-sample 
 - Green slope: the straight-line fit, with the slope given in the legend
 - Dashed grey line: A = 0
 
-**`spectrum_dNdP.png`** has one panel per pair, with the normal molecule in blue and the variant in red, on a log scale. The open last bin (P > 8) is not included, because it has no real width.
-
 ![Asymmetry vs momentum](asymmetry_vs_P.png)
+
+
+**`spectrum_dNdP.png`** has one panel per pair, with the normal molecule in blue and the variant in red, on a log scale. The open last bin (P > 8) is not included, because it has no real width.
 
 ![Momentum spectrum](spectrum_dNdP.png)
 
