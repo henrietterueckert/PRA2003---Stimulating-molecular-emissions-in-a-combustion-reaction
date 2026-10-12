@@ -1,7 +1,7 @@
 # PRA2003 - Simulating molecular emissions in a combustion reaction
 **Student:** Henriette Rückert (i6397668) 
 
-This code analyses 5 million simulated combustion events for 12 molecular species with their counterparts. It calculates average abundance and checks for asymmetries between paired species, as well as asymmetry as a function of their momentum
+This code analyses 5 million simulated combustion events for 6 molecular species with their counterparts (12 IDs). It calculates average abundance and checks for asymmetries between paired species, as well as asymmetry as a function of their momentum
 
 # Findings
 
@@ -42,7 +42,7 @@ Each event in a file has:
 
 - A Header line: eventID  and number of molecules rows
   
-- The molecule rows contain: px py pz  ad the moleculeID. These are the 3D momentum components with integer ID identifying the molecule
+- The molecule rows contain: px py pz  and the moleculeID. These are the 3D momentum components with integer ID identifying the molecule
 
 ```
 <event ID> <number of molecules>
@@ -105,7 +105,7 @@ For each pair, the script calculates:
 4. **Asymmetry vs momentum**: A in each momentum bin. Bin edges: 0, 0.5, 1, 1.5, 2, 2.5, 3, 4, 6, 8, and above 8.
 5. **Momentum dependence**, tested in three ways:
    - the distance of each bin from the overall asymmetry, in σ
-   - a straight-line fit $A(P) = a + kP over 0 < P < 8, giving the slope k ± its error and how many σ it is from 0  (0 means no momentum dependence)
+   - a straight-line fit A(P) = a + kP over 0 < P < 8, giving the slope k ± its error and how many σ it is from 0  (0 means no momentum dependence)
    - a list of the bins where |A| is more than 3σ from zero.
 6. **Momentum spectrum dN/dP**: counts per event per unit momentum, for the normal and the variant molecule.
 
