@@ -210,7 +210,7 @@ The cause of this difference is not known.
 
 Without file 10, the error bars on the momentum spectrum become much smaller:
 
-![Momentum spectrum, files 1–9 only](spectrum_dNdP_files1-9.png)
+![Momentum spectrum, files 1–9 only](spectrum_dNdP_1-9.png)
 
 **All 10 files are kept**
 
