@@ -152,9 +152,6 @@ For each molecule/counterpart pair, the asymmetry are calculated per sub-sample 
 
 3 of 6 pairs show a significant asymmetry (> 3 sigma): Carbon monoxide, Water, and Methane.
 
-![Asymmetry vs momentum](asymmetry_vs_P.png)
-
-![Momentum spectrum](spectrum_dNdP.png)
   
 # Is there any asymmetry as a function of their momentum?
 ## Plots
@@ -166,6 +163,11 @@ For each molecule/counterpart pair, the asymmetry are calculated per sub-sample 
 - Dashed grey line: A = 0
 
 **`spectrum_dNdP.png`** has one panel per pair, with the normal molecule in blue and the variant in red, on a log scale. The open last bin (P > 8) is not included, because it has no real width.
+
+![Asymmetry vs momentum](asymmetry_vs_P.png)
+
+![Momentum spectrum](spectrum_dNdP.png)
+
 
 ## Asymmetry as a function of momentum interpretation
 
