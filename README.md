@@ -21,18 +21,18 @@ Carbon monoxide, water and methane show a significant asymmetry: the normal mole
 - **Python**: 3.8 or later
 
 - **Dependencies**: Python3. Import matplotlib, numpy. If not installed:
-- 
+  
 ```bash
 pip install numpy matplotlib
 ```
 
-- **Input files**: output-Set1.txt through output-Set10.txt must be in the same directory as the script. Each line is either a header (eventNumber nParticles) or a particle row (px py pz moleculeID)
+- **Input files**: output-Set0.txt through output-Set10.txt must be in the same directory as the script. 
 
 - **Run from repository**:
 `week2deliverable.py`
 `week3deliverable.py`
 `week4deliverable.py`
-`week5deliverable.py`
+`finalanalysis.py`
 
 - **Runtime**: several minutes.
 
@@ -59,7 +59,7 @@ Each event in a file has:
 **Week 3:** The input is any of the output files, the output is printed directly onto console
 
 
-**Week 4:** The input is 10 text files: output-Set1.txt --> output-Set10.txt, each containing 500,000 events (5,000,000 events total)
+**Week 4:** The input is 10 text files: output-Set1.txt → output-Set10.txt, each containing 500,000 events (5,000,000 events total)
 
 The output is printed directly onto console and into csv files:
 
@@ -69,8 +69,12 @@ The output is printed directly onto console and into csv files:
 
 `significance.csv` = Pairwise difference, correlation, and significance test for each molecule/counterpart pair 
 
+**Final Analysis**
+The input is output-Set1.txt → output-Set10.txt. The output is printed to the console and saved as two plots: asymmetry_vs_P.png and spectrum_dNdP.png.
 
 # Method #
+
+Weeks 2-4 compute questions 1 and 2. THe final analysis includes the computations plus asymmetry as a function of momentum. If you want the final results, onyl run `finalanalysis.py`
 
 **Week 2**
 
@@ -89,9 +93,9 @@ It only handles one file and one chosen ID per run. Excludes empty events from N
    
 2. Combine the 10 files into one final average per code and takes the uncertainty as the standard deviation of the 10 per-file averages (sub-sampling method)
    
-3. Pairwise test: for each code pair, the script computes the difference and asymmetry per file first, then the standard deviation of those per-file differences is the uncertainty on the difference. correlation_r is reported alongside as a diagnostic. **This was not included in the Week 5 code**
+3. Pairwise test: for each code pair, the script computes the difference and asymmetry per file first, then the standard deviation of those per-file differences is the uncertainty on the difference. correlation_r is reported alongside as a diagnostic. **This was not included in the final analysis**
 
-**Week 5**
+**Final Analysis**
 Runs all three questions in one script! Also contains improvements on week 2-4/
 
 For each pair, the script calculates:
@@ -135,7 +139,7 @@ The 5 million event sample is split into 10 sub-samples of 500,000 events each a
 
 # Is there any asymmetry between the normal and the variant molecule?
 
-For each molecule/counterpart pair, the difference and asymmetry are calculated per sub-sample first, then the standard deviation across sub-samples gives the uncertainty on the difference (n_sigma). This accounts for correlation between the pair. Pairs with n_sigma > 3 are significant. 
+For each molecule/counterpart pair, the asymmetry are calculated per sub-sample first. The final value is the weighted mean over the sub-samples, and the standard deviation across the sub-samples is taken as its uncertainty. n_sigma from 0 is the asymmetry divided by this uncertainty. Pairs with n_sigma > 3 are significant. 
 
 | Pair | Molecules | Counts per event (normal) | Counts per event (variant) | Overall asymmetry A | σ from 0 | Slope dA/dP (per 10⁻²³ kg m/s) | σ from 0 | Largest \|A − A<sub>overall</sub>\| / std |
 |---|---|---|---|---|---|---|---|---|
@@ -167,8 +171,8 @@ For each molecule/counterpart pair, the difference and asymmetry are calculated 
 
 No pair shows a significant dependence of the asymmetry on momentum:
 
-every bin agrees with the pair's overall asymmetry within 1σ (largest deviation 0.9σ);
-every fitted slope is consistent with zero (largest is CO, at 1.3σ).
+- every bin agrees with the pair's overall asymmetry within 1σ (largest deviation 0.9σ)
+- every fitted slope is consistent with zero (largest is CO, at 1.3σ)
 
 Two water bins (0.5–1 and 3–4) are more than 3σ from zero. That is only because the overall water asymmetry is not zero: both bins agree with the overall value within 0.4σ, so they are not evidence that the asymmetry depends on momentum.
 
@@ -176,7 +180,7 @@ Two water bins (0.5–1 and 3–4) are more than 3σ from zero. That is only bec
 
 For every pair, the normal and variant molecules have the same momentum spectrum within the uncertainties. The spectrum rises to a peak somewhere between P ≈ 0.5 and 2 × 10⁻²³ kg m/s and then falls at higher P. This agrees with the asymmetry not depending on momentum.
 
-In every pair, the dN/dP points between P ≈ 2.5 and 4 have larger uncertainties than their neighbours. This means the shape of the spectrum varies more between sub-samples in that range. The asymmetry there is not affected, because the variation is the same for the normal and the variant molecule and cancels in the ratio.
+In every pair, the dN/dP points between P ≈ 2.5 and 4 have larger uncertainties than their neighbours. This means the shape of the spectrum varies more between sub-samples in that range. 
 
 **BUT** our group investigated why this happens:
 
@@ -188,7 +192,7 @@ Sub-sample 10: its momentum distribution differs from the other nine, for an unk
 **How it was found**
 
 1. The momentum spectra had very large error bars. The error bars are the spread between sub-samples, so this pointed to sub-samples that disagree
-2. The number of molecules per event in each momentum bin was compared file by file. Files 1–9 agree closely but file 10 doesn;t
+2. The number of molecules per event in each momentum bin was compared file by file. Files 1–9 agree closely but file 10 doesn't
 
 Example for methane / methyl ion (3122 / −3122), N + N' per event in each momentum bin:
 
@@ -199,7 +203,7 @@ Example for methane / methyl ion (3122 / −3122), N + N' per event in each mome
 | **File 10** | **0.0004** | **0.0067** | **0.0219** | **0.043** | **0.0671** | **0.0909** | **0.21** | **0.1075** | **0.0018** | **0.0005** | **0.550** |
 | Relative spread (all 10 files) | 0.34 | 0.30 | 0.20 | 0.03 | 0.21 | 0.48 | 0.76 | 0.17 | 0.34 | 0.35 | |
 
-**What is different about file 10**
+**What is different about file 10:**
 
 - File 10 contains **the same number of molecules per event** as the other files (0.550 against 0.552 for methane).
 - Those molecules have a **different momentum distribution**
@@ -212,14 +216,14 @@ Without file 10, the error bars on the momentum spectrum become much smaller:
 
 ![Momentum spectrum, files 1–9 only](spectrum_dNdP_1-9.png)
 
-**All 10 files are kept**
+**Decision**
 
-File 10 has the same number of molecules per event as the other files, so it is valid for the counts per event and the overall asymmetry.
+All 10 files were kept in the final analysis, however this is a limitation. File 10 has the same number of molecules per event as the other files, so it is valid for the counts per event and the overall asymmetry.
 
 ## Notes and limitations
 
 - Rare pairs: some pairs, such as ozone / superoxide, have very few molecules. Their asymmetries have large uncertainties.
 - Bins not plotted: a bin is left off the asymmetry plot if fewer than 2 sub-samples have molecules in it, or if its std is 0.
 - What a zero slope means: a slope consistent with zero does not prove the asymmetry is independent of P (it could rise and then fall). The per-bin comparison with the overall asymmetry looks at that
-- For every pair, the normal and variant molecules have the same momentum spectrum within the uncertainties. The spectrum rises to a peak somewhere between P ≈ 0.5 and 2 × 10⁻²³ kg m/s and then falls at higher P. This agrees with the asymmetry not depending on momentum.
+- Sub-sample 10 has a different momentum distribution for an unknown reason
 
