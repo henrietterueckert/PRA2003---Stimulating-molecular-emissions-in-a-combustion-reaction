@@ -101,19 +101,24 @@ Runs all three questions in one script! Also contains improvements on week 2-4/
 For each pair, the script calculates:
 
 1. **Counts per event**: the number of normal and of variant molecules, divided by the number of events
-2. **Overall asymmetry**: A using all molecules, plus how many standard deviations (σ) it is from zero.  
+2. **Overall asymmetry**: A using all molecules, plus how many standard deviations (σ) it is from zero
    - The asymmetry of a pair is: A = {N - N'}/{N + N'}
-   - where N is the number of normal molecules and N' is the number of variant molecules.
+   - where N is the number of normal molecules and N' is the number of variant molecules
    - A = 0 means both appear equally often
    - A > 0 means the normal molecule is more common
 4. **Asymmetry vs momentum**: A in each momentum bin. Bin edges: 0, 0.5, 1, 1.5, 2, 2.5, 3, 4, 6, 8, and above 8.
 5. **Momentum dependence**, tested in three ways:
    - the distance of each bin from the overall asymmetry, in σ
    - a straight-line fit A(P) = a + kP over 0 < P < 8, giving the slope k ± its error and how many σ it is from 0  (0 means no momentum dependence)
-   - a list of the bins where |A| is more than 3σ from zero.
-6. **Momentum spectrum dN/dP**: counts per event per unit momentum, for the normal and the variant molecule.
+   - a list of the bins where |A| is more than 3σ from zero
+6. **Momentum spectrum dN/dP**: counts per event per unit momentum, for the normal and the variant molecule
 
 
+## Asymmetry equation ##
+
+Why  A = {N - N'}/{N + N'}?
+
+Raw difference N − N′ depends on how abundant a molecule is, so it cannot be compared between pairs. So this equation is the difference relative to the total. It lies between −1 and +1, and is 0 when both molecules are equal. Number of events also cancel in the ratio. In momentum bins, it also removes the effect of the falling spectrum, so a constant A(P) means the relative difference does not depend on momentum.
 
 ## How does the sub-sampling method work? ##
 
