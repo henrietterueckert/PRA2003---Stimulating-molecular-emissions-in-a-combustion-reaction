@@ -70,6 +70,7 @@ The output is printed directly onto console and into csv files:
 `significance.csv` = Pairwise difference, correlation, and significance test for each molecule/counterpart pair 
 
 **Final Analysis**
+
 The input is output-Set1.txt → output-Set10.txt. The output is printed to the console and saved as two plots: asymmetry_vs_P.png and spectrum_dNdP.png.
 
 # Method #
@@ -95,7 +96,7 @@ It only handles one file and one chosen ID per run. Excludes empty events from N
    
 3. Pairwise test: for each code pair, the script computes the difference and asymmetry per file first, then the standard deviation of those per-file differences is the uncertainty on the difference. correlation_r is reported alongside as a diagnostic. **This was not included in the final analysis**
 
-**Final Analysis**
+# Final Analysis #
 Runs all three questions in one script! Also contains improvements on week 2-4/
 
 For each pair, the script calculates:
