@@ -100,7 +100,7 @@ Runs all three questions in one script! Also contains improvements on week 2-4/
 
 For each pair, the script calculates:
 
-1. **Counts per event**: the number of normal and of variant molecules, divided by the number of events.
+1. **Counts per event**: the number of normal and of variant molecules, divided by the number of events
 2. **Overall asymmetry**: A using all molecules, plus how many standard deviations (σ) it is from zero.  
    - The asymmetry of a pair is: A = {N - N'}/{N + N'}
    - where N is the number of normal molecules and N' is the number of variant molecules.
@@ -117,7 +117,7 @@ For each pair, the script calculates:
 
 ## How does the sub-sampling method work? ##
 
-The 5 million event sample is split into 10 sub-samples of 500,000 events each and a central value is taken from the average over the full pooled sample. The statistical uncertainty is the standard deviation of the 10 sub-sample averages. This is used instead of propagating each molecule's uncertainty independently, since we don't know correlation between molecules measured in the same events.
+The 5 million events (4.62 million non-empty events) are split into 10 sub-samples and a central value is taken from the average over the full pooled sample. The statistical uncertainty is the standard deviation of the 10 sub-sample averages. This is used instead of propagating each molecule's uncertainty independently, since we don't know correlation between molecules measured in the same events.
 
 # Questions
 # What are the average counts of each molecular species and their statistical uncertainties?
@@ -172,7 +172,7 @@ For each molecule/counterpart pair, the asymmetry are calculated per sub-sample 
 
 ## Asymmetry as a function of momentum interpretation
 
-No pair shows a significant dependence of the asymmetry on momentum:
+No pair shows evidence of a significant dependence of the asymmetry on momentum:
 
 - every bin agrees with the pair's overall asymmetry within 1σ (largest deviation 0.9σ)
 - every fitted slope is consistent with zero (largest is CO, at 1.3σ)
@@ -225,8 +225,8 @@ All 10 files were kept in the final analysis, however this is a limitation. File
 
 ## Notes and limitations
 
-- Rare pairs: some pairs, such as ozone / superoxide, have very few molecules. Their asymmetries have large uncertainties.
-- Bins not plotted: a bin is left off the asymmetry plot if fewer than 2 sub-samples have molecules in it, or if its std is 0.
+- Some pairs, such as ozone / superoxide, have very few molecules. Their asymmetries have large uncertainties.
+- A bin is left off the asymmetry plot if fewer than 2 sub-samples have molecules in it. Or if its std is 0.
 - What a zero slope means: a slope consistent with zero does not prove the asymmetry is independent of P (it could rise and then fall). The per-bin comparison with the overall asymmetry looks at that
 - Sub-sample 10 has a different momentum distribution for an unknown reason
 
